@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
-import studentHero from '../assets/student-laptop 1620by1080.jpg';
+import homeHero from '../assets/Banners & Images/Home_Hero1.png';
 import serviceRemoteLearning from '../assets/service-remote-learning-svg.png';
 import serviceExamPrep from '../assets/service-exam-prep-svg.jpg';
 import serviceCurriculumDesign from '../assets/service-curriculum-design-svg.jpg';
@@ -19,9 +19,9 @@ const Home: React.FC = () => {
   return (
     <div className="home">
               <div className="hero-section student-hero">
-                <img 
-                  src={studentHero} 
-                  alt="Student studying with laptop" 
+                <img
+                  src={homeHero}
+                  alt="Guerilla Teaching Home Hero"
                   className="hero-background-image"
                 />
                 {/* Left Text Box */}

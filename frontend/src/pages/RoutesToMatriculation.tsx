@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './RoutesToMatriculation.css';
-import studentsReadingHero from '../assets/students-reading-hero.jpg';
+import PageHeader from '../components/PageHeader';
+import routesToMatricHero from '../assets/Banners & Images/Routes_to_Matric2.png';
 import cambridgeLogo from '../assets/cambridgelogo.jpg';
 import pearsonLogo from '../assets/pearsonedexcellogo.jpg';
 import tutorsAndExamsLogo from '../assets/tutorsandexamslogo.jpg';
@@ -93,14 +94,12 @@ const RoutesToMatriculation: React.FC = () => {
 
   return (
     <div className="routes-to-matriculation">
-      <div className="hero-section">
-        <div className="container">
-          <h1>Routes to Matriculation</h1>
-          <p>Choose the pathway that best fits your lifestyle and learning preferences</p>
-        </div>
-      </div>
+      <PageHeader
+        title="Routes to Matriculation"
+        subtitle="Choose the pathway that best fits your lifestyle and learning preferences"
+      />
       <div className="hero-image-container">
-        <img src={studentsReadingHero} alt="Students Reading Hero" className="hero-image" />
+        <img src={routesToMatricHero} alt="Routes to Matriculation" className="hero-image" />
         <Link to="/start-here" className="hero-back-link">← Back to Start Here</Link>
       </div>
       

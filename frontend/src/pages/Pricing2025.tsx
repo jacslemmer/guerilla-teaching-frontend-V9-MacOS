@@ -43,7 +43,8 @@ interface PricingTier {
 // Using shared CartItem type from @guerilla-teaching/shared-types
 
 const Pricing2025: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<'IGCSE' | 'AS Level' | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'IGCSE' | 'AS Level'>('IGCSE');
+  const [selectedContentType, setSelectedContentType] = useState<'programs' | 'courses' | 'tutoring'>('programs');
   const [showDetails, setShowDetails] = useState<string | null>(null);
   const [quote, setQuote] = useState<CartItem[]>(() => {
     const savedQuote = localStorage.getItem('quoteRequest');
@@ -51,6 +52,7 @@ const Pricing2025: React.FC = () => {
   });
   const [showAdded, setShowAdded] = useState<string | null>(null);
   const navigate = useNavigate();
+
 
   const pricingTiers: PricingTier[] = [
     // IGCSE Offerings
@@ -185,8 +187,8 @@ const Pricing2025: React.FC = () => {
     }
   ];
 
-  const filteredTiers = pricingTiers.filter(tier => 
-    selectedCategory === 'all' || tier.category === selectedCategory
+  const filteredTiers = pricingTiers.filter(tier =>
+    tier.category === selectedCategory
   );
 
   const handlePricingClick = (tierId: string) => {
@@ -317,65 +319,62 @@ const Pricing2025: React.FC = () => {
             </button>
           </div>
 
-          {/* Navigation Pyramid */}
-          <div className="navigation-pyramid">
-            <div className="pyramid-level-1">
-              <button 
-                className="nav-button main-nav" 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          {/* Content Type Navigation */}
+          <div className="content-type-navigation">
+            <div className="content-type-tabs">
+              <button
+                className={`content-type-tab ${selectedContentType === 'programs' ? 'active' : ''}`}
+                onClick={() => setSelectedContentType('programs')}
               >
-                Products & Services
+                📚 Programs
               </button>
-            </div>
-            <div className="pyramid-level-2">
-              <button 
-                className="nav-button secondary-nav" 
-                onClick={() => window.scrollTo({ top: 800, behavior: 'auto' })}
+              <button
+                className={`content-type-tab ${selectedContentType === 'courses' ? 'active' : ''}`}
+                onClick={() => setSelectedContentType('courses')}
               >
-                Programs
+                📖 Individual Courses
               </button>
-              <button 
-                className="nav-button secondary-nav" 
-                onClick={() => window.scrollTo({ top: 2000, behavior: 'auto' })}
+              <button
+                className={`content-type-tab ${selectedContentType === 'tutoring' ? 'active' : ''}`}
+                onClick={() => setSelectedContentType('tutoring')}
               >
-                Courses
-              </button>
-              <button 
-                className="nav-button secondary-nav" 
-                onClick={() => window.scrollTo({ top: 4000, behavior: 'auto' })}
-              >
-                Tutoring
+                👨‍🏫 Personal Tutoring
               </button>
             </div>
           </div>
 
-          <div className="pricing-header" id="programs">
-            <h2>International GCSE & AS Level Pricing 2025</h2>
-            <p>Flexible options designed to meet your learning needs and budget</p>
+          <div className="pricing-header">
+            <h2>
+              {selectedContentType === 'programs' && 'International GCSE & AS Level Programs 2025'}
+              {selectedContentType === 'courses' && 'Individual Courses'}
+              {selectedContentType === 'tutoring' && 'Personal Tutoring Services'}
+            </h2>
+            <p>
+              {selectedContentType === 'programs' && 'Flexible program packages designed to meet your learning needs and budget'}
+              {selectedContentType === 'courses' && 'Choose individual courses to customize your learning experience'}
+              {selectedContentType === 'tutoring' && 'One-on-one expert tutoring for personalized learning support'}
+            </p>
           </div>
           
-          <div className="category-tabs">
-            <button
-              className={`category-tab ${selectedCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('all')}
-            >
-              All Programs
-            </button>
-            <button
-              className={`category-tab ${selectedCategory === 'IGCSE' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('IGCSE')}
-            >
-              International GCSE
-            </button>
-            <button
-              className={`category-tab ${selectedCategory === 'AS Level' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('AS Level')}
-            >
-              International AS Level
-            </button>
-          </div>
-          
-          {(selectedCategory === 'all' || selectedCategory === 'IGCSE') && (
+          {/* Content sections that swap based on selectedContentType */}
+          {selectedContentType === 'programs' && (
+            <>
+              <div className="category-tabs">
+                <button
+                  className={`category-tab ${selectedCategory === 'IGCSE' ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory('IGCSE')}
+                >
+                  International GCSE
+                </button>
+                <button
+                  className={`category-tab ${selectedCategory === 'AS Level' ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory('AS Level')}
+                >
+                  International AS Level
+                </button>
+              </div>
+
+              {selectedCategory === 'IGCSE' && (
             <>
               <div id="igcse-programs"></div>
               <h2 className="section-title">International GCSE Programs</h2>
@@ -436,7 +435,7 @@ const Pricing2025: React.FC = () => {
             </>
           )}
 
-          {(selectedCategory === 'all' || selectedCategory === 'AS Level') && (
+          {selectedCategory === 'AS Level' && (
             <>
               <div id="as-programs"></div>
               <h2 className="section-title">International AS Level Programs</h2>
@@ -496,22 +495,21 @@ const Pricing2025: React.FC = () => {
               </div>
             </>
           )}
-          
-          {/* Courses Section */}
-          <div className="courses-section" id="courses">
-            <h2>Individual Courses</h2>
+            </>
+          )}
+
+          {selectedContentType === 'courses' && (
+            <div className="courses-section">
+              <h2 className="section-title">Individual Courses</h2>
             
             {/* Course Navigation */}
             <div className="course-navigation">
               <button className="course-nav-btn current" disabled>
                 IGCSE
               </button>
-              <button 
-                className="course-nav-btn" 
-                onClick={() => window.scrollTo({ top: 3500, behavior: 'auto' })}
-              >
+              <a href="#as-courses" className="course-nav-btn">
                 Skip to AS Level
-              </button>
+              </a>
             </div>
             
             <div className="course-category" id="igcse-courses">
@@ -862,11 +860,17 @@ const Pricing2025: React.FC = () => {
               </div>
             </div>
           </div>
+          )}
 
-          {/* Tutoring Section */}
-          <div className="tutoring-section" id="tutoring">
-            <h2>Personal Tutoring Services</h2>
-            <p>One-on-one expert tutoring for personalized learning support</p>
+          {selectedContentType === 'tutoring' && (
+            <div className="tutoring-section">
+              <h2 className="section-title">Personal Tutoring Services</h2>
+              <p>One-on-one expert tutoring for personalized learning support</p>
+
+            {/* Top Pricing Disclaimer */}
+            <div className="pricing-disclaimer prominent">
+              <p><strong>*PRICING DISCLAIMER:</strong> The R600/hour rate shown below is indicative only. Actual tutoring rates may vary based on tutor experience, qualifications, and subject complexity.</p>
+            </div>
             
             <div className="tutoring-grid">
               <div className="tutoring-card">
@@ -914,7 +918,15 @@ const Pricing2025: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Pricing Disclaimer */}
+            <div className="pricing-disclaimer">
+              <p><strong>*Pricing Disclaimer:</strong> The R600/hour rate is indicative only. Actual tutoring rates may vary based on tutor experience, qualifications, and subject complexity.</p>
+            </div>
           </div>
+        )}
+
+        {/* End of all content type sections */}
 
           <div className="pricing-footer">
             <div className="contact-section">

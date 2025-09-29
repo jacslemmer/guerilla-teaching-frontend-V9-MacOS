@@ -58,7 +58,7 @@ export default defineConfig({
   publicDir: 'public',
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       input: './index.html',
       output: {
@@ -67,7 +67,11 @@ export default defineConfig({
           router: ['react-router-dom'],
         }
       }
-    }
+    },
+    // CloudFlare Pages optimizations
+    target: 'es2020',
+    minify: 'esbuild',
+    cssMinify: true
   },
   
   // Environment variables prefix

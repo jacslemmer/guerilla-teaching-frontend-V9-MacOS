@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import VirtualLearning from '../assets/eLearning.jpg';
+import './LearningPortal.css';
+import VirtualLearning from '../assets/Banners & Images/e-learning2.png';
 import VisionIcon from '../assets/Vision ICON.jpg';
 import EthosIcon from '../assets/ETHOS ICON.jpg';
 import MissionIcon from '../assets/Mission Icon.jpg';
@@ -86,9 +87,9 @@ const LearningPortal: React.FC = () => {
           <div className="testimonials-container">
             <h2>Testimonials</h2>
             <div className="testimonials-ticker">
-              <div 
+              <div
                 className="testimonial-slide"
-                style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+                style={{ transform: `translateX(-${currentTestimonial * 33.333}%)` }}
               >
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.id} className="testimonial-card">
@@ -147,9 +148,9 @@ const LearningPortal: React.FC = () => {
         <div className="container">
           <div className="solutions-container">
             <div className="solutions-ticker">
-              <div 
+              <div
                 className="solution-slide"
-                style={{ transform: `translateX(-${currentImage * 100}%)` }}
+                style={{ transform: `translateX(-${currentImage * 50}%)` }}
               >
                 {solutionImages.map((solution, index) => (
                   <Link key={index} to={solution.link} className="solution-card">

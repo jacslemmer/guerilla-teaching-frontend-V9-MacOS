@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
+// TEMPORARILY REMOVED TO FIX SCROLL CONFLICTS
+// import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import StartHere from './pages/StartHere';
 import FAQs from './pages/FAQs';
@@ -36,7 +37,8 @@ import BlogDetail from './pages/BlogDetail';
 function App() {
   return (
     <Router>
-      <ScrollToTop />
+      {/* TEMPORARILY REMOVED TO FIX SCROLL CONFLICTS */}
+      {/* <ScrollToTop /> */}
       <div className="App">
         <Header />
         <main>

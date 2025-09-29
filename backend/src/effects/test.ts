@@ -44,3 +44,11 @@ const testEffect = async () => {
 
 // Export for testing
 export { testEffect };
+
+// Jest test
+describe('Backend Utilities', () => {
+  test('should run basic operations', async () => {
+    const result = await testEffect();
+    expect(result).toBe(true);
+  });
+});

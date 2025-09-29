@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './FAQs.css';
+import PageHeader from '../components/PageHeader';
 import studentThinking from '../assets/studentthinking.png';
 
 const faqs = [
@@ -71,11 +72,10 @@ const FAQs: React.FC = () => {
 
   return (
     <div className="faqs">
-      <div className="hero-section">
-        <div className="container">
-          <h1>Frequently Asked Questions</h1>
-        </div>
-      </div>
+      <PageHeader
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions about our teaching methods and programs"
+      />
       <div className="faq-content-section">
         <img src={studentThinking} alt="Student Thinking" className="faq-hero-image" />
         <div className="faq-list">
