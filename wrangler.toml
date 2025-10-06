@@ -1,6 +1,6 @@
 name = "guerilla-teaching-website"
 main = "worker/index.js"
-compatibility_date = "2024-05-01"
+compatibility_date = "2025-10-06"
 
 # Environment variables for the worker
 [vars]
@@ -11,6 +11,11 @@ API_BASE_URL = "https://guerilla-teaching-website.jacobuslemmer.workers.dev"
 [env.production]
 name = "guerilla-teaching-prod"
 vars = { FRONTEND_URL = "https://guerilla-teaching.com" }
+
+# KV Namespace for caching/sessions
+[[kv_namespaces]]
+binding = "CACHE"
+id = "9bc65b35521f4ded8450ba44195a9d63"
 
 # D1 Database bindings
 [[d1_databases]]

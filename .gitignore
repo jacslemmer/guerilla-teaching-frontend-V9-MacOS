@@ -1,0 +1,28 @@
+# Cloudflare Workers
+.dev.vars
+.wrangler/
+wrangler.toml.backup
+.env
+.env.local
+.env.production
+
+# Secrets
+*.pem
+*.key
+credentials.json
+serviceAccountKey.json
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
