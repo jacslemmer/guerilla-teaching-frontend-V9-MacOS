@@ -21,7 +21,7 @@ id = "9bc65b35521f4ded8450ba44195a9d63"
 [[d1_databases]]
 binding = "DB"
 database_name = "guerilla-teaching-db"
-database_id = "your-d1-database-id-here"
+database_id = "2ddfe790-3c63-4702-ac29-0ebd9bd5ce0f"
 
 # R2 Storage bindings
 [[r2_buckets]]
