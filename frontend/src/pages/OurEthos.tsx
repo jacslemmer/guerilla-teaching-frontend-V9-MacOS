@@ -37,15 +37,16 @@ const OurEthos: React.FC = () => {
           {/* Examination Preparation Service */}
           <div className="exam-prep-section">
             <div className="exam-prep-content">
-              <div className="exam-prep-icon">
-                <a 
-                  href="https://www.youtube.com/watch?v=IdWWMB2MTn0" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="youtube-icon"
-                  title="Watch our eLearning Guide video"
-                >
-                </a>
+              <div className="exam-prep-video">
+                <iframe
+                  width="100%"
+                  height="315"
+                  src="https://www.youtube.com/embed/IdWWMB2MTn0"
+                  title="eLearning Guide video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
               <div className="exam-prep-text">
                 <h3>Examination Preparation Service</h3>
