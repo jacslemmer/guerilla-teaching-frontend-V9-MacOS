@@ -4,7 +4,6 @@
  */
 
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import { jwt } from 'hono/jwt';
 
 // Types
@@ -24,12 +23,6 @@ interface CMSUser {
 
 // Initialize Hono app
 const app = new Hono<{ Bindings: Env }>();
-
-// CORS middleware
-app.use('/*', cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://guerilla-teaching.pages.dev', 'https://guerilla-teaching.com'],
-  credentials: true,
-}));
 
 // JWT Secret - use environment variable or fallback
 const JWT_SECRET = 'your-secret-key-change-in-production';
