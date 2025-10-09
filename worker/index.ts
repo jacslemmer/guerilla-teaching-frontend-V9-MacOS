@@ -4,7 +4,6 @@
  */
 
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import cmsApp from './cms';
 
 // Types
@@ -18,13 +17,20 @@ interface Env {
 // Initialize main app
 const app = new Hono<{ Bindings: Env }>();
 
-// Global CORS - Allow all origins for now (can be restricted later)
-app.use('/*', cors({
-  origin: '*',
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-  credentials: false, // Must be false when origin is '*'
-}));
+// Custom CORS middleware to ensure headers are always set
+app.use('/*', async (c, next) => {
+  // Set CORS headers
+  c.header('Access-Control-Allow-Origin', '*');
+  c.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  c.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // Handle preflight requests
+  if (c.req.method === 'OPTIONS') {
+    return c.text('', 204);
+  }
+
+  await next();
+});
 
 // Health check
 app.get('/', (c) => {
