@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config/api';
 import './Articles.css'; // Use the same styles as public articles page
 
 // Import article images
@@ -68,7 +69,7 @@ const ArticleManagement: React.FC = () => {
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:8787/api/cms/articles', getAuthHeaders());
+      const response = await axios.get(getApiUrl('/api/cms/articles'), getAuthHeaders());
       setArticles(response.data.articles || []);
     } catch (error) {
       console.error('Error fetching articles:', error);
@@ -83,12 +84,12 @@ const ArticleManagement: React.FC = () => {
     try {
       if (editingArticle) {
         await axios.put(
-          `http://localhost:8787/api/cms/articles/${editingArticle.id}`,
+          `getApiUrl('/api/cms/articles')/${editingArticle.id}`,
           formData,
           getAuthHeaders()
         );
       } else {
-        await axios.post('http://localhost:8787/api/cms/articles', formData, getAuthHeaders());
+        await axios.post(getApiUrl('/api/cms/articles'), formData, getAuthHeaders());
       }
       fetchArticles();
       resetForm();
@@ -120,7 +121,7 @@ const ArticleManagement: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this article?')) return;
     try {
-      await axios.delete(`http://localhost:8787/api/cms/articles/${id}`, getAuthHeaders());
+      await axios.delete(`getApiUrl('/api/cms/articles')/${id}`, getAuthHeaders());
       fetchArticles();
       alert('Article deleted successfully!');
     } catch (error) {

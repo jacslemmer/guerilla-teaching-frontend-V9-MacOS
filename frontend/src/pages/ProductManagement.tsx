@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config/api';
 import './IGCSECoursesGrid.css'; // Use the same styles as public website
 
 // Import all IGCSE course images
@@ -112,7 +113,7 @@ const ProductManagement: React.FC = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:8787/api/cms/products', getAuthHeaders());
+      const response = await axios.get(getApiUrl('/api/cms/products'), getAuthHeaders());
       setProducts(response.data.products || []);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -134,12 +135,12 @@ const ProductManagement: React.FC = () => {
 
       if (editingProduct) {
         await axios.put(
-          `http://localhost:8787/api/cms/products/${editingProduct.id}`,
+          getApiUrl(`/api/cms/products/${editingProduct.id}`),
           productData,
           getAuthHeaders()
         );
       } else {
-        await axios.post('http://localhost:8787/api/cms/products', productData, getAuthHeaders());
+        await axios.post(getApiUrl('/api/cms/products'), productData, getAuthHeaders());
       }
       fetchProducts();
       resetForm();
@@ -174,7 +175,7 @@ const ProductManagement: React.FC = () => {
   const handleDelete = async (id: number, name: string) => {
     if (!window.confirm(`Delete "${name}"?\n\nThis action cannot be undone.`)) return;
     try {
-      await axios.delete(`http://localhost:8787/api/cms/products/${id}`, getAuthHeaders());
+      await axios.delete(getApiUrl(`/api/cms/products/${id}`), getAuthHeaders());
       fetchProducts();
       alert('Product deleted successfully!');
     } catch (error) {

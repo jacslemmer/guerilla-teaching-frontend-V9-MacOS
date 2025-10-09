@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
+import { getApiUrl } from '../config/api';
 import './VideoManagement.css';
 
 interface Video {
@@ -50,7 +51,7 @@ const VideoManagement: React.FC = () => {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:8787/api/cms/videos', getAuthHeaders());
+      const response = await axios.get(getApiUrl('/api/cms/videos'), getAuthHeaders());
       setVideos(response.data.videos || []);
     } catch (error) {
       console.error('Error fetching videos:', error);
@@ -66,12 +67,12 @@ const VideoManagement: React.FC = () => {
     try {
       if (editingVideo) {
         await axios.put(
-          `http://localhost:8787/api/cms/videos/${editingVideo.id}`,
+          `getApiUrl('/api/cms/videos')/${editingVideo.id}`,
           formData,
           getAuthHeaders()
         );
       } else {
-        await axios.post('http://localhost:8787/api/cms/videos', formData, getAuthHeaders());
+        await axios.post(getApiUrl('/api/cms/videos'), formData, getAuthHeaders());
       }
       fetchVideos();
       resetForm();
@@ -102,7 +103,7 @@ const VideoManagement: React.FC = () => {
     if (!window.confirm('Are you sure you want to delete this video?')) return;
 
     try {
-      await axios.delete(`http://localhost:8787/api/cms/videos/${id}`, getAuthHeaders());
+      await axios.delete(`getApiUrl('/api/cms/videos')/${id}`, getAuthHeaders());
       fetchVideos();
     } catch (error) {
       console.error('Error deleting video:', error);

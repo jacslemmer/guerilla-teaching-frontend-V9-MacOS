@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getApiUrl } from '../config/api';
 import './AdminLogin.css';
 
 const AdminLogin: React.FC = () => {
@@ -16,7 +17,7 @@ const AdminLogin: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8787/api/cms/auth/login', {
+      const response = await axios.post(getApiUrl('/api/cms/auth/login'), {
         email,
         password
       });
@@ -84,11 +85,6 @@ const AdminLogin: React.FC = () => {
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
-
-          <div className="login-footer">
-            <p>Default credentials: admin@guerillateaching.com / Admin123!</p>
-            <p className="warning-text">Please change the default password after first login</p>
-          </div>
         </div>
       </div>
     </div>
