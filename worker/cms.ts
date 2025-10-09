@@ -41,41 +41,53 @@ const JWT_SECRET = 'your-secret-key-change-in-production';
 // Login endpoint
 app.post('/auth/login', async (c) => {
   try {
+    console.log('Login attempt started');
     const { email, password } = await c.req.json();
+    console.log('Email:', email);
 
     if (!email || !password) {
+      console.log('Missing email or password');
       return c.json({ error: 'Email and password are required' }, 400);
     }
 
     // Find user by email
+    console.log('Searching for user in database...');
     const user = await c.env.DB.prepare(
       'SELECT * FROM cms_users WHERE email = ? AND is_active = 1'
     ).bind(email).first() as CMSUser | null;
 
     if (!user) {
+      console.log('User not found');
       return c.json({ error: 'Invalid credentials' }, 401);
     }
+
+    console.log('User found:', user.email);
 
     // For now, simple password check (in production, use bcrypt)
     // The password stored is hashed with bcrypt, but we'll do simple check for demo
     // TODO: Import bcrypt.js for Workers to do proper hash comparison
     const isValidPassword = password === 'SecurePass123!'; // Temporary!
+    console.log('Password valid:', isValidPassword);
 
     if (!isValidPassword) {
+      console.log('Invalid password');
       return c.json({ error: 'Invalid credentials' }, 401);
     }
 
     // Update last login
+    console.log('Updating last login...');
     await c.env.DB.prepare(
       'UPDATE cms_users SET last_login = CURRENT_TIMESTAMP WHERE id = ?'
     ).bind(user.id).run();
 
     // Create JWT token
+    console.log('Creating JWT token...');
     const token = await createJWT({
       id: user.id,
       email: user.email,
       role: user.role
     }, JWT_SECRET);
+    console.log('JWT token created successfully');
 
     return c.json({
       token,
@@ -88,7 +100,11 @@ app.post('/auth/login', async (c) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    return c.json({ error: 'Login failed' }, 500);
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    return c.json({
+      error: 'Login failed',
+      details: error instanceof Error ? error.message : String(error)
+    }, 500);
   }
 });
 
@@ -483,11 +499,27 @@ app.delete('/products/:id', async (c) => {
 // HELPER FUNCTIONS
 // ===============================
 
+// Base64 URL encoding helper for Workers
+function base64UrlEncode(str: string): string {
+  // Use unescape and encodeURIComponent to handle Unicode properly
+  const base64 = btoa(unescape(encodeURIComponent(str)));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+function arrayBufferToBase64Url(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return base64UrlEncode(binary);
+}
+
 // Simple JWT creation (for Workers environment)
 async function createJWT(payload: any, secret: string): Promise<string> {
   const header = { alg: 'HS256', typ: 'JWT' };
-  const headerB64 = btoa(JSON.stringify(header));
-  const payloadB64 = btoa(JSON.stringify({ ...payload, exp: Date.now() + 24 * 60 * 60 * 1000 }));
+  const headerB64 = base64UrlEncode(JSON.stringify(header));
+  const payloadB64 = base64UrlEncode(JSON.stringify({ ...payload, exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 }));
 
   const data = `${headerB64}.${payloadB64}`;
   const encoder = new TextEncoder();
@@ -500,7 +532,7 @@ async function createJWT(payload: any, secret: string): Promise<string> {
   );
 
   const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
-  const signatureB64 = btoa(String.fromCharCode(...new Uint8Array(signature)));
+  const signatureB64 = arrayBufferToBase64Url(signature);
 
   return `${data}.${signatureB64}`;
 }
