@@ -18,22 +18,12 @@ interface Env {
 // Initialize main app
 const app = new Hono<{ Bindings: Env }>();
 
-// Global CORS
+// Global CORS - Allow all origins for now (can be restricted later)
 app.use('/*', cors({
-  origin: (origin) => {
-    // Allow localhost for development
-    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
-      return origin;
-    }
-    // Allow any Cloudflare Pages deployment
-    if (origin.includes('.pages.dev') || origin === 'https://guerilla-teaching.com') {
-      return origin;
-    }
-    return 'https://guerilla-teaching.com'; // default fallback
-  },
+  origin: '*',
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
+  credentials: false, // Must be false when origin is '*'
 }));
 
 // Health check
