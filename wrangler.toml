@@ -1,5 +1,5 @@
 name = "guerilla-teaching-website"
-main = "worker/dist/index.js"
+main = "worker/index.ts"
 compatibility_date = "2025-10-06"
 
 # Environment variables for the worker

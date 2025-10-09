@@ -17,19 +17,31 @@ interface Env {
 // Initialize main app
 const app = new Hono<{ Bindings: Env }>();
 
-// Custom CORS middleware to ensure headers are always set
-app.use('/*', async (c, next) => {
-  // Set CORS headers
-  c.header('Access-Control-Allow-Origin', '*');
+// Custom CORS middleware - reflect the origin to allow all origins
+app.use('*', async (c, next) => {
+  // Get the origin from the request
+  const origin = c.req.header('Origin') || '*';
+
+  // Set CORS headers before processing the request
+  c.header('Access-Control-Allow-Origin', origin);
   c.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   c.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  c.header('Access-Control-Max-Age', '86400');
+  c.header('Access-Control-Allow-Credentials', 'true');
 
-  // Handle preflight requests
+  // Handle OPTIONS preflight here
   if (c.req.method === 'OPTIONS') {
     return c.text('', 204);
   }
 
   await next();
+
+  // Ensure headers are set on response too
+  c.res.headers.set('Access-Control-Allow-Origin', origin);
+  c.res.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  c.res.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  c.res.headers.set('Access-Control-Max-Age', '86400');
+  c.res.headers.set('Access-Control-Allow-Credentials', 'true');
 });
 
 // Health check
@@ -48,6 +60,8 @@ app.get('/api/status', (c) => {
     version: '2.0.0',
     timestamp: new Date().toISOString(),
     environment: 'cloudflare-workers'
+  }, 200, {
+    'Access-Control-Allow-Origin': '*',
   });
 });
 
