@@ -34,43 +34,65 @@ import OurEthos from './pages/OurEthos';
 import OurClients from './pages/OurClients';
 import BlogDetail from './pages/BlogDetail';
 
+// CMS Admin Pages
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import DashboardHome from './pages/DashboardHome';
+import VideoManagement from './pages/VideoManagement';
+import ArticleManagement from './pages/ArticleManagement';
+import ProductManagement from './pages/ProductManagement';
+
 function App() {
   return (
     <Router>
       {/* TEMPORARILY REMOVED TO FIX SCROLL CONFLICTS */}
       {/* <ScrollToTop /> */}
-      <div className="App">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/about-us/our-ethos" element={<OurEthos />} />
-            <Route path="/about-us/our-clients" element={<OurClients />} />
-            <Route path="/start-here" element={<StartHere />} />
-            <Route path="/start-here/faqs" element={<FAQs />} />
-            <Route path="/start-here/routes" element={<RoutesToMatriculation />} />
-            <Route path="/start-here/elearning" element={<ELearningGuideFixed />} />
-            <Route path="/shop" element={<Pricing2025 />} />
-            <Route path="/learning-portal" element={<LearningPortal />} />
-            <Route path="/learning-portal/igcse" element={<InternationalGCSE />} />
-            <Route path="/learning-portal/as-levels" element={<InternationalASLevels />} />
-            <Route path="/learning-portal/igcse/courses" element={<IGCSECoursesGrid />} />
-            <Route path="/learning-portal/igcse/courses/:courseId" element={<IGCSECourseDetail />} />
-            <Route path="/learning-portal/as-levels/courses" element={<ASLevelCourses />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/resources/articles" element={<Articles />} />
-            <Route path="/resources/webinars" element={<Webinars />} />
-            <Route path="/resources/articles/:id" element={<BlogDetail />} />
-            <Route path="/can-we-help" element={<CanWeHelp />} />
-            <Route path="/quote-cart" element={<QuoteCart />} />
-            <Route path="/request-quote" element={<Checkout />} />
+      <Routes>
+        {/* CMS Admin Routes (No Header/Footer) */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="videos" element={<VideoManagement />} />
+          <Route path="articles" element={<ArticleManagement />} />
+          <Route path="products" element={<ProductManagement />} />
+          {/* Webinar routes will be added here */}
+        </Route>
 
-            <Route path="/admin/quotes" element={<AdminQuotes />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+        {/* Public Site Routes (With Header/Footer) */}
+        <Route path="/*" element={
+          <div className="App">
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/about-us/our-ethos" element={<OurEthos />} />
+                <Route path="/about-us/our-clients" element={<OurClients />} />
+                <Route path="/start-here" element={<StartHere />} />
+                <Route path="/start-here/faqs" element={<FAQs />} />
+                <Route path="/start-here/routes" element={<RoutesToMatriculation />} />
+                <Route path="/start-here/elearning" element={<ELearningGuideFixed />} />
+                <Route path="/shop" element={<Pricing2025 />} />
+                <Route path="/learning-portal" element={<LearningPortal />} />
+                <Route path="/learning-portal/igcse" element={<InternationalGCSE />} />
+                <Route path="/learning-portal/as-levels" element={<InternationalASLevels />} />
+                <Route path="/learning-portal/igcse/courses" element={<IGCSECoursesGrid />} />
+                <Route path="/learning-portal/igcse/courses/:courseId" element={<IGCSECourseDetail />} />
+                <Route path="/learning-portal/as-levels/courses" element={<ASLevelCourses />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/articles" element={<Articles />} />
+                <Route path="/resources/webinars" element={<Webinars />} />
+                <Route path="/resources/articles/:id" element={<BlogDetail />} />
+                <Route path="/can-we-help" element={<CanWeHelp />} />
+                <Route path="/quote-cart" element={<QuoteCart />} />
+                <Route path="/request-quote" element={<Checkout />} />
+                <Route path="/admin/quotes" element={<AdminQuotes />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        } />
+      </Routes>
     </Router>
   );
 }

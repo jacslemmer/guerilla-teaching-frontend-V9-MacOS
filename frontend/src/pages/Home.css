@@ -258,33 +258,20 @@
     z-index: 1;
   }
 
-  /* Left Text Box - Far Left Side */
+  /* Left Text Box - Top Left Area */
   .hero-left-text-box {
     position: absolute;
-    top: 50%;
+    top: 10%;
     left: 2vw;
-    transform: translateY(-50%);
+    transform: translateY(0);
     background: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 2rem;
     border-radius: 15px;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     z-index: 2;
-  }
-
-  /* Right Text Box - Far Right Side */
-  .hero-right-text-box {
-    position: absolute;
-    top: 50%;
-    right: 2vw;
-    transform: translateY(-50%);
-    background: transparent;
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 15px;
-    z-index: 2;
-    max-width: 25rem;
+    max-width: 35rem;
   }
 }
 
@@ -294,41 +281,27 @@
   .hero-left-text-box h2 {
     font-size: 2rem;
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 1rem 0;
     opacity: 0.95;
     line-height: 1.3;
   }
 
-  /* Same size as "Learn. Anywhere. Anytime." */
-  .hero-left-text-box h1 {
-    font-size: 2rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 0.5rem 0 !important;
-    opacity: 0.95;
-    line-height: 1.3 !important;
-  }
-
-  /* Keep same size: "Our Mission:" */
-  .hero-right-text-box h3 {
-    font-size: 2rem;
+  /* "Our Mission:" heading */
+  .hero-left-text-box h3 {
+    font-size: 1.5rem;
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.8rem 0;
     opacity: 0.95;
     line-height: 1.3;
   }
 
-  /* Doubled from 0.5rem: Long paragraph text */
-  .hero-right-text-box p {
+  /* Long paragraph text */
+  .hero-left-text-box p {
     font-size: 1rem !important;
-    font-weight: 600 !important;
-    margin: 0 0 0.5rem 0 !important;
+    font-weight: 400 !important;
+    margin: 0 0 1rem 0 !important;
     opacity: 0.95;
-    line-height: 1.3 !important;
-  }
-
-  .hero-left-text-box h1:last-child,
-  .hero-right-text-box p:last-of-type {
-    margin-bottom: 0;
+    line-height: 1.5 !important;
   }
 }
 
@@ -592,6 +565,15 @@
   flex: 1;
   max-width: 500px;
   cursor: pointer;
+}
+
+.video-player {
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+  width: 500px;
+  height: 281px; /* 16:9 ratio of 500px */
+  cursor: default;
 }
 
 .video-thumbnail {

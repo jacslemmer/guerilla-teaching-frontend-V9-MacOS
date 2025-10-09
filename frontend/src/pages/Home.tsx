@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 import homeHero from '../assets/Banners & Images/Home_Hero1.png';
@@ -15,6 +15,8 @@ import Article5 from '../assets/Article5.jpg';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   return (
     <div className="home">
@@ -27,11 +29,6 @@ const Home: React.FC = () => {
                 {/* Left Text Box */}
                 <div className="hero-left-text-box">
                   <h2>Learn. Anywhere. Anytime.</h2>
-                  <h1>Guerilla Teaching</h1>
-                </div>
-
-                {/* Right Text Box */}
-                <div className="hero-right-text-box">
                   <h3>Our Mission:</h3>
                   <p>
                     To provide affordable access to quality teaching and learning materials, supporting individuals and institutions, homeschoolers and cottage schools in their educational journeys.
@@ -58,22 +55,55 @@ const Home: React.FC = () => {
         <div className="container">
           <h2>Message from Our CEO</h2>
           <div className="video-container">
-            <div className="video-placeholder" onClick={() => window.open('https://www.youtube.com/watch?v=MzILQQH5SyA', '_blank')}>
-              <img 
-                src="https://img.youtube.com/vi/MzILQQH5SyA/hqdefault.jpg" 
-                alt="CEO Video - Guerilla Teaching" 
-                className="video-thumbnail"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://img.youtube.com/vi/MzILQQH5SyA/mqdefault.jpg';
-                }}
-              />
-              <div className="play-button">
-                <div className="play-icon">▶</div>
+            {!showVideoPlayer ? (
+              <div className="video-placeholder" onClick={() => {
+                setShowVideoPlayer(true);
+                setTimeout(() => setShowMessage(true), 2000); // Show message after 2 seconds
+              }}>
+                <img
+                  src="https://img.youtube.com/vi/yOc9DsjJeGI/hqdefault.jpg"
+                  alt="CEO Video - Guerilla Teaching"
+                  className="video-thumbnail"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://img.youtube.com/vi/yOc9DsjJeGI/mqdefault.jpg';
+                  }}
+                />
+                <div className="play-button">
+                  <div className="play-icon">▶</div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="video-player">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/yOc9DsjJeGI?autoplay=1&controls=1&modestbranding=1&rel=0"
+                  title="CEO Message - Guerilla Teaching"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ borderRadius: '15px' }}
+                />
+              </div>
+            )}
             <div className="video-info">
               <h3>Welcome to Guerilla Teaching</h3>
               <p>Hear from our CEO about our mission to provide affordable access to quality teaching and learning materials for students worldwide.</p>
+              {showMessage && (
+                <p style={{
+                  fontSize: '0.95rem',
+                  color: '#e74c3c',
+                  marginTop: '1.5rem',
+                  padding: '1rem',
+                  backgroundColor: '#fff3cd',
+                  borderLeft: '4px solid #e74c3c',
+                  borderRadius: '4px',
+                  lineHeight: '1.6'
+                }}>
+                  <strong>Note:</strong> If the video doesn't play, your browser's privacy settings may be blocking embedded content.
+                  You can watch it directly on <a href="https://www.youtube.com/watch?v=yOc9DsjJeGI" target="_blank" rel="noopener noreferrer" style={{ color: '#667eea', textDecoration: 'underline' }}>YouTube</a>.
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -26,6 +27,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="footer-bottom">
           <p>&copy; 2024 Guerilla Teaching. All rights reserved.</p>
+          <Link to="/admin/login" style={{ color: '#999', fontSize: '0.85rem', marginLeft: '20px' }}>Admin Login</Link>
         </div>
       </div>
     </footer>
