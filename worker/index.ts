@@ -20,7 +20,17 @@ const app = new Hono<{ Bindings: Env }>();
 
 // Global CORS
 app.use('/*', cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000', 'https://guerilla-teaching.pages.dev', 'https://guerilla-teaching.com'],
+  origin: (origin) => {
+    // Allow localhost for development
+    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+      return origin;
+    }
+    // Allow any Cloudflare Pages deployment
+    if (origin.includes('.pages.dev') || origin === 'https://guerilla-teaching.com') {
+      return origin;
+    }
+    return 'https://guerilla-teaching.com'; // default fallback
+  },
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
